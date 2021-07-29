@@ -320,17 +320,22 @@
   (setq company-dabbrev-downcase nil))
 
 
-(use-package rustic)
+(use-package rustic
+  :config
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode)))
 
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
   :bind (("C-c C-h" . lsp-describe-thing-at-point))
-  :hook ((rust-mode . lsp)
+  :hook ((rustic-mode . lsp)
          (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
   :config
+
+  (setq lsp-rust-server 'rust-analyzer)
+  (setq lsp-rust-analyzer-proc-macro-enable t)
 
   (setq lsp-prefer-flymake nil)
   (setq lsp-signature-render-documentation nil)
@@ -343,8 +348,7 @@
 (use-package lsp-ui :commands lsp-ui-mode
   :config
   (setq lsp-ui-sideline-enable t)
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-diagnostic-package :none))
+  (setq lsp-ui-doc-enable nil))
 
 (use-package treemacs)
 
@@ -355,7 +359,7 @@
   :bind (("C-c c n" . flycheck-next-error)
          ("C-c c p" . flycheck-previous-error))
   :hook ((python-mode . flycheck-mode)
-         (rust-mode . flycheck-mode)
+         (rustic-mode . flycheck-mode)
          (json-mode . flycheck-mode))
   :config
   (setq flycheck-flake8-maximum-line-length 150))
