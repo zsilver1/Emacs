@@ -245,8 +245,8 @@
   :config
   (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
   (setq doom-modeline-vcs-max-length 20)
-  (setq doom-modeline-env-enable-python nil)
-  (setq doom-modeline-checker-simple-format t))
+  (setq doom-modeline-env-version nil)
+  (setq doom-modeline-checker-simple-format nil))
 
 (use-package expand-region
   :init
@@ -340,10 +340,10 @@
   (setq lsp-prefer-flymake nil)
   (setq lsp-signature-render-documentation nil)
   (setq lsp-enable-snippet nil)
-  (setq lsp-completion-provider :capf)
   (setq lsp-modeline-diagnostics-enable nil)
+  (setq lsp-completion-provider :capf)
   (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-modeline-diagnostics-mode t))
+  (setq lsp-modeline-diagnostics-mode nil))
 
 (use-package lsp-ui :commands lsp-ui-mode
   :config
@@ -357,13 +357,7 @@
 
 (use-package flycheck
   :bind (("C-c c n" . flycheck-next-error)
-         ("C-c c p" . flycheck-previous-error))
-  :hook ((python-mode . flycheck-mode)
-         (rustic-mode . flycheck-mode)
-         (json-mode . flycheck-mode))
-  :config
-  (setq flycheck-flake8-maximum-line-length 150))
-
+         ("C-c c p" . flycheck-previous-error)))
 
 (use-package pyvenv)
 
