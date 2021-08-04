@@ -39,7 +39,7 @@
 (setq python-shell-interpreter python-interpreter)
 
 ;; Increase gc-cons-threshold to improve performance
-(setq gc-cons-threshold 10000000)
+(setq gc-cons-threshold 100000000)
 
 ;; Increase the amount of data emacs can read from a process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -368,6 +368,10 @@
   (setq dumb-jump-selector 'ivy)
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+(use-package xref
+  :config
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read))
+
 (use-package crux
   :bind
   (("C-a" . crux-move-beginning-of-line)
@@ -383,9 +387,14 @@
   :config
   (global-undo-tree-mode))
 
-(use-package all-the-icons-ivy
+(use-package all-the-icons-ivy-rich
   :if (display-graphic-p)
-  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
+  :init (all-the-icons-ivy-rich-mode 1))
+
+(use-package ivy-rich
+  :init
+  (ivy-rich-project-root-cache-mode 1)
+  (ivy-rich-mode 1))
 
 (use-package smex
   :config
@@ -408,10 +417,6 @@
   (if is-personal-computer
       (setq projectile-project-search-path '("~/Documents/Programming/"))
     (setq projectile-project-search-path '("~/"))))
-
-;; (use-package smart-jump
-;;   :config
-;;   (smart-jump-setup-default-registers))
 
 (use-package markdown-mode
   :config
