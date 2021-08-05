@@ -503,7 +503,14 @@
   :bind (("C-x b" . persp-ivy-switch-buffer))
   :config
   (setq persp-state-default-file "~/.emacs.d/persp")
-  (add-hook 'kill-emacs-hook #'persp-state-save))
+  (add-hook 'kill-emacs-hook #'persp-state-save)
+
+  (add-hook 'after-init-hook
+            '(lambda ()
+               (when
+                   (y-or-n-p "Would you like to restore last perspective? ")
+                 (persp-state-load persp-state-default-file))))
+  )
 
 (load custom-file 'noerror)
 (when is-personal-computer (load "~/.emacs.d/personal.el" 'noerror))
