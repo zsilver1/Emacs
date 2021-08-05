@@ -136,6 +136,7 @@
 
 (global-set-key (kbd "C-u") 'undo)
 (global-unset-key (kbd "C-x u"))
+(global-unset-key (kbd "C-z"))
 (global-set-key (kbd "M-i") 'dabbrev-expand)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
@@ -489,6 +490,20 @@
 
 (use-package csv-mode
   :hook (csv-mode . csv-align-mode))
+
+(use-package perspective
+  ;; to prevent conflicts with tmux
+  :if (display-graphic-p)
+  :init
+  (persp-mode)
+  :bind (:map persp-mode-map
+              ("C-z" . perspective-map)
+              ("C-z x" . persp-kill)
+              ("C-z c" . persp-switch))
+  :bind (("C-x b" . persp-ivy-switch-buffer))
+  :config
+  (setq persp-state-default-file "~/.emacs.d/persp")
+  (add-hook 'kill-emacs-hook #'persp-state-save))
 
 (load custom-file 'noerror)
 (when is-personal-computer (load "~/.emacs.d/personal.el" 'noerror))
