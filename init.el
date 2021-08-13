@@ -328,7 +328,6 @@
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c l")
-  :bind (("C-c C-h" . lsp-describe-thing-at-point))
   :hook ((rustic-mode . lsp)
          (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
@@ -347,8 +346,10 @@
   (setq lsp-modeline-diagnostics-mode nil))
 
 (use-package lsp-ui :commands lsp-ui-mode
+  :bind (("C-c C-h" . lsp-ui-doc-glance))
   :config
   (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-enable nil))
 
 (use-package treemacs)
